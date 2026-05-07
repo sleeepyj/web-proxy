@@ -6,108 +6,97 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0e;color:#fff;font-family:system-ui,sans-serif}
+    html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,sans-serif}
+    body{background:var(--bg);color:var(--text)}
     canvas{position:fixed;inset:0;pointer-events:none;z-index:0}
 
-    /* SIDEBAR */
-    .sidebar{position:fixed;left:0;top:0;bottom:0;width:52px;background:rgba(255,255,255,0.03);border-right:0.5px solid rgba(255,255,255,0.07);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:4px;z-index:10}
-    .sb-btn{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:rgba(255,255,255,0.4);transition:background 0.15s,color 0.15s;border:none;background:none}
-    .sb-btn:hover{background:rgba(255,255,255,0.07);color:#fff}
+    .sidebar{position:fixed;left:0;top:0;bottom:0;width:52px;background:var(--sidebar-bg);border-right:0.5px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:4px;z-index:10}
+    .sb-btn{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--text-muted);transition:background 0.15s,color 0.15s;border:none;background:none}
+    .sb-btn:hover{background:var(--surface2);color:var(--text)}
     .sb-btn.active{background:var(--accent);color:#fff}
     .sb-bottom{margin-top:auto}
 
-    /* TABS BAR */
-    .tabsbar{position:fixed;left:52px;right:0;top:0;height:40px;background:#0d0d12;border-bottom:0.5px solid rgba(255,255,255,0.08);display:flex;align-items:center;padding:0 8px;gap:4px;z-index:9;overflow-x:auto}
+    .tabsbar{position:fixed;left:52px;right:0;top:0;height:40px;background:var(--topbar-bg);border-bottom:0.5px solid var(--border);display:flex;align-items:center;padding:0 8px;gap:4px;z-index:9;overflow-x:auto}
     .tabsbar::-webkit-scrollbar{height:3px}
-    .tabsbar::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:3px}
-    .tab{display:flex;align-items:center;gap:6px;padding:0 10px;height:28px;border-radius:8px;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.08);cursor:pointer;font-size:12px;color:rgba(255,255,255,0.5);white-space:nowrap;min-width:100px;max-width:160px;transition:background 0.15s;flex-shrink:0}
-    .tab.active{background:rgba(255,255,255,0.1);color:#fff;border-color:var(--accent)}
+    .tabsbar::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:3px}
+    .tab{display:flex;align-items:center;gap:6px;padding:0 10px;height:28px;border-radius:8px;background:var(--surface);border:0.5px solid var(--border);cursor:pointer;font-size:12px;color:var(--text-muted);white-space:nowrap;min-width:100px;max-width:160px;transition:background 0.15s;flex-shrink:0}
+    .tab.active{background:var(--surface2);color:var(--text);border-color:var(--accent)}
     .tab-title{flex:1;overflow:hidden;text-overflow:ellipsis}
-    .tab-close{font-size:11px;color:rgba(255,255,255,0.3);cursor:pointer;padding:2px;border-radius:4px;line-height:1}
-    .tab-close:hover{color:#fff;background:rgba(255,255,255,0.1)}
-    .new-tab-btn{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:rgba(255,255,255,0.4);border:none;background:none;flex-shrink:0}
-    .new-tab-btn:hover{background:rgba(255,255,255,0.07);color:#fff}
+    .tab-close{font-size:11px;color:var(--text-muted);cursor:pointer;padding:2px;border-radius:4px;line-height:1}
+    .tab-close:hover{color:var(--text);background:var(--surface2)}
+    .new-tab-btn{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--text-muted);border:none;background:none;flex-shrink:0}
+    .new-tab-btn:hover{background:var(--surface2);color:var(--text)}
 
-    /* MAIN CONTENT AREA */
     .content{position:fixed;left:52px;right:0;top:40px;bottom:0;z-index:5}
 
-    /* HOME VIEW */
     .home-view{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
-    .logo-text{font-size:72px;font-weight:700;letter-spacing:-2px;line-height:1;color:var(--accent);text-shadow:0 0 60px var(--accent-glow),0 0 120px var(--accent-glow2);transition:color 0.3s,text-shadow 0.3s}
-    .logo-sub{font-size:14px;color:rgba(255,255,255,0.35);margin-top:8px;letter-spacing:0.5px;text-align:center}
+    .logo-text{font-size:72px;font-weight:700;letter-spacing:-2px;line-height:1;color:var(--accent);text-shadow:0 0 60px var(--accent-glow),0 0 120px var(--accent-glow2);transition:all 0.3s}
+    .logo-sub{font-size:14px;color:var(--text-muted);margin-top:8px;letter-spacing:0.5px;text-align:center}
     .search-wrap{width:460px;margin:32px 0 22px;position:relative}
-    .search-wrap input{width:100%;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.12);border-radius:50px;padding:14px 90px 14px 46px;font-size:15px;color:#fff;outline:none;transition:border-color 0.2s,background 0.2s}
-    .search-wrap input::placeholder{color:rgba(255,255,255,0.3)}
+    .search-wrap input{width:100%;background:var(--input-bg);border:0.5px solid var(--border);border-radius:50px;padding:14px 90px 14px 46px;font-size:15px;color:var(--text);outline:none;transition:border-color 0.2s,background 0.2s}
+    .search-wrap input::placeholder{color:var(--text-muted)}
     .search-wrap input:focus{border-color:var(--accent);background:var(--accent-bg)}
-    .search-icon{position:absolute;left:17px;top:50%;transform:translateY(-50%);font-size:17px;color:rgba(255,255,255,0.3);pointer-events:none}
+    .search-icon{position:absolute;left:17px;top:50%;transform:translateY(-50%);font-size:17px;color:var(--text-muted);pointer-events:none}
     .go-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:var(--accent);border:none;border-radius:50px;padding:8px 20px;font-size:13px;font-weight:500;color:#fff;cursor:pointer;transition:opacity 0.15s}
     .go-btn:hover{opacity:0.85}
     .links{display:flex;gap:10px}
-    .link-card{background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.09);border-radius:14px;padding:14px 18px;min-width:88px;text-align:center;cursor:pointer;transition:background 0.15s,border-color 0.15s;display:flex;flex-direction:column;align-items:center;gap:8px}
-    .link-card:hover{background:rgba(255,255,255,0.09);border-color:var(--accent)}
+    .link-card{background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:14px 18px;min-width:88px;text-align:center;cursor:pointer;transition:background 0.15s,border-color 0.15s;display:flex;flex-direction:column;align-items:center;gap:8px}
+    .link-card:hover{background:var(--surface2);border-color:var(--accent)}
     .link-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff}
-    .link-label{font-size:12px;color:rgba(255,255,255,0.7);font-weight:500}
-    .status{font-size:12px;color:rgba(255,255,255,0.2);margin-top:26px;letter-spacing:1px;text-transform:uppercase}
+    .link-label{font-size:12px;color:var(--text-muted);font-weight:500}
+    .status{font-size:12px;color:var(--text-muted);margin-top:26px;letter-spacing:1px;text-transform:uppercase;opacity:0.5}
 
-    /* IFRAME VIEW */
     .frame-view{width:100%;height:100%;display:none;flex-direction:column}
-    .frame-urlbar{background:#0d0d12;border-bottom:0.5px solid rgba(255,255,255,0.08);padding:6px 12px;display:flex;align-items:center;gap:8px;flex-shrink:0}
-    .url-input{flex:1;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.1);border-radius:50px;padding:5px 14px;font-size:12px;color:#fff;outline:none}
+    .frame-urlbar{background:var(--topbar-bg);border-bottom:0.5px solid var(--border);padding:6px 12px;display:flex;align-items:center;gap:8px;flex-shrink:0}
+    .url-input{flex:1;background:var(--input-bg);border:0.5px solid var(--border);border-radius:50px;padding:5px 14px;font-size:12px;color:var(--text);outline:none}
     .url-input:focus{border-color:var(--accent)}
-    .url-btn{background:none;border:none;color:rgba(255,255,255,0.4);cursor:pointer;font-size:16px;display:flex;align-items:center;padding:4px}
-    .url-btn:hover{color:#fff}
+    .url-btn{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;display:flex;align-items:center;padding:4px}
+    .url-btn:hover{color:var(--text)}
     iframe{flex:1;border:none;width:100%}
 
-    /* SETTINGS VIEW */
-    .settings-view{width:100%;height:100%;display:none;overflow-y:auto}
-    .settings-inner{max-width:700px;margin:0 auto;padding:32px 24px}
-    .settings-nav{display:flex;flex-direction:column;gap:2px;margin-bottom:0}
-    .settings-layout{display:flex;gap:24px;height:calc(100vh - 40px)}
-    .settings-sidebar{width:200px;flex-shrink:0;padding:20px 12px;border-right:0.5px solid rgba(255,255,255,0.07)}
-    .settings-main{flex:1;overflow-y:auto;padding:24px}
-    .snav-btn{width:100%;text-align:left;background:none;border:none;color:rgba(255,255,255,0.5);padding:9px 12px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;gap:8px;transition:background 0.15s,color 0.15s}
-    .snav-btn:hover{background:rgba(255,255,255,0.06);color:#fff}
-    .snav-btn.active{background:rgba(255,255,255,0.08);color:#fff}
+    .settings-view{width:100%;height:100%;display:none}
+    .settings-layout{display:flex;height:100%}
+    .settings-sidebar{width:200px;flex-shrink:0;padding:20px 12px;border-right:0.5px solid var(--border);background:var(--sidebar-bg)}
+    .settings-main{flex:1;overflow-y:auto;padding:28px}
+    .snav-btn{width:100%;text-align:left;background:none;border:none;color:var(--text-muted);padding:9px 12px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;gap:8px;transition:background 0.15s,color 0.15s}
+    .snav-btn:hover{background:var(--surface2);color:var(--text)}
+    .snav-btn.active{background:var(--surface2);color:var(--text)}
     .snav-btn i{font-size:16px}
     .s-section{display:none}
     .s-section.active{display:block}
-    .s-title{font-size:20px;font-weight:500;margin-bottom:4px}
-    .s-sub{font-size:13px;color:rgba(255,255,255,0.35);margin-bottom:24px}
-    .s-card{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;margin-bottom:16px}
-    .s-card-title{font-size:15px;font-weight:500;margin-bottom:4px}
-    .s-card-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:16px}
+    .s-title{font-size:20px;font-weight:500;margin-bottom:4px;color:var(--text)}
+    .s-sub{font-size:13px;color:var(--text-muted);margin-bottom:24px}
+    .s-card{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
+    .s-card-title{font-size:15px;font-weight:500;margin-bottom:4px;color:var(--text)}
+    .s-card-sub{font-size:13px;color:var(--text-muted);margin-bottom:16px}
 
-    /* THEMES GRID */
     .themes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px}
-    .theme-card{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 8px;text-align:center;cursor:pointer;transition:border-color 0.15s}
-    .theme-card:hover{border-color:rgba(255,255,255,0.2)}
+    .theme-card{background:var(--surface2);border:2px solid transparent;border-radius:10px;padding:14px 8px;text-align:center;cursor:pointer;transition:border-color 0.15s,transform 0.1s}
+    .theme-card:hover{transform:scale(1.04)}
     .theme-card.active{border-color:var(--accent)}
-    .theme-preview{font-size:20px;font-weight:700;margin-bottom:6px}
-    .theme-name{font-size:11px;color:rgba(255,255,255,0.5)}
+    .theme-preview{font-size:22px;font-weight:700;margin-bottom:6px}
+    .theme-name{font-size:11px;color:var(--text-muted)}
 
-    /* TAB CLOAK */
     .cloak-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-    .cloak-btn{padding:7px 14px;border-radius:8px;border:0.5px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.6);font-size:13px;cursor:pointer;transition:background 0.15s,border-color 0.15s;display:flex;align-items:center;gap:6px}
-    .cloak-btn:hover{background:rgba(255,255,255,0.09)}
+    .cloak-btn{padding:7px 14px;border-radius:8px;border:0.5px solid var(--border);background:var(--surface2);color:var(--text-muted);font-size:13px;cursor:pointer;transition:background 0.15s;display:flex;align-items:center;gap:6px}
+    .cloak-btn:hover{background:var(--surface2);color:var(--text)}
     .cloak-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
-    .s-input{width:100%;background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.12);border-radius:8px;padding:10px 14px;font-size:13px;color:#fff;outline:none;margin-bottom:10px}
+    .s-input{width:100%;background:var(--input-bg);border:0.5px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text);outline:none;margin-bottom:10px}
     .s-input:focus{border-color:var(--accent)}
-    .s-input::placeholder{color:rgba(255,255,255,0.3)}
+    .s-input::placeholder{color:var(--text-muted)}
 
-    /* TOGGLE */
     .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
-    .toggle-label{font-size:14px}
-    .toggle-sub{font-size:12px;color:rgba(255,255,255,0.35);margin-top:2px}
+    .toggle-label{font-size:14px;color:var(--text)}
+    .toggle-sub{font-size:12px;color:var(--text-muted);margin-top:2px}
     .toggle{position:relative;width:44px;height:24px;flex-shrink:0}
     .toggle input{opacity:0;width:0;height:0}
-    .toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,0.15);border-radius:50px;cursor:pointer;transition:background 0.2s}
+    .toggle-slider{position:absolute;inset:0;background:var(--surface2);border-radius:50px;cursor:pointer;transition:background 0.2s}
     .toggle-slider:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform 0.2s}
     .toggle input:checked+.toggle-slider{background:var(--accent)}
     .toggle input:checked+.toggle-slider:before{transform:translateX(20px)}
 
-    /* ABOUT */
     .about-logo{font-size:48px;font-weight:700;color:var(--accent);text-shadow:0 0 40px var(--accent-glow);margin-bottom:8px}
-    .about-ver{font-size:13px;color:rgba(255,255,255,0.3);margin-bottom:24px}
+    .about-ver{font-size:13px;color:var(--text-muted);margin-bottom:24px}
   </style>
 </head>
 <body>
@@ -120,12 +109,9 @@
   <div class="sb-btn" onclick="openSettings('about')"><i class="ti ti-info-circle"></i></div>
 </div>
 
-<div class="tabsbar" id="tabsbar">
-  <button class="new-tab-btn" onclick="newTab()" title="New tab"><i class="ti ti-plus"></i></button>
-</div>
+<div class="tabsbar" id="tabsbar"></div>
 
 <div class="content" id="content">
-  <!-- HOME -->
   <div class="home-view" id="homeView">
     <div class="logo-text">Nebula</div>
     <div class="logo-sub">explore the open web</div>
@@ -135,33 +121,15 @@
       <button class="go-btn" onclick="loadFromHome()">Go</button>
     </div>
     <div class="links">
-      <div class="link-card" onclick="openLink('https://youtube.com')">
-        <div class="link-icon" style="background:#ff0000"><i class="ti ti-brand-youtube"></i></div>
-        <span class="link-label">Youtube</span>
-      </div>
-      <div class="link-card" onclick="openLink('https://github.com')">
-        <div class="link-icon" style="background:#24292e"><i class="ti ti-brand-github"></i></div>
-        <span class="link-label">Github</span>
-      </div>
-      <div class="link-card" onclick="openLink('https://discord.com')">
-        <div class="link-icon" style="background:#5865f2"><i class="ti ti-brand-discord"></i></div>
-        <span class="link-label">Discord</span>
-      </div>
-      <div class="link-card" onclick="openLink('https://reddit.com')">
-        <div class="link-icon" style="background:#ff4500"><i class="ti ti-brand-reddit"></i></div>
-        <span class="link-label">Reddit</span>
-      </div>
-      <div class="link-card" onclick="openLink('https://twitter.com')">
-        <div class="link-icon" style="background:#000"><i class="ti ti-brand-x"></i></div>
-        <span class="link-label">X</span>
-      </div>
+      <div class="link-card" onclick="openLink('https://youtube.com')"><div class="link-icon" style="background:#ff0000"><i class="ti ti-brand-youtube"></i></div><span class="link-label">Youtube</span></div>
+      <div class="link-card" onclick="openLink('https://github.com')"><div class="link-icon" style="background:#24292e"><i class="ti ti-brand-github"></i></div><span class="link-label">Github</span></div>
+      <div class="link-card" onclick="openLink('https://discord.com')"><div class="link-icon" style="background:#5865f2"><i class="ti ti-brand-discord"></i></div><span class="link-label">Discord</span></div>
+      <div class="link-card" onclick="openLink('https://reddit.com')"><div class="link-icon" style="background:#ff4500"><i class="ti ti-brand-reddit"></i></div><span class="link-label">Reddit</span></div>
+      <div class="link-card" onclick="openLink('https://twitter.com')"><div class="link-icon" style="background:#000"><i class="ti ti-brand-x"></i></div><span class="link-label">X</span></div>
     </div>
-    <div class="status" id="statusText">Ready</div>
+    <div class="status">Ready</div>
   </div>
 
-  <!-- FRAME VIEWS injected by JS -->
-
-  <!-- SETTINGS -->
   <div class="settings-view" id="settingsView">
     <div class="settings-layout">
       <div class="settings-sidebar">
@@ -171,24 +139,13 @@
         <button class="snav-btn" id="snav-about" onclick="switchSettings('about')"><i class="ti ti-info-circle"></i>About</button>
       </div>
       <div class="settings-main">
-
-        <!-- APPEARANCE -->
         <div class="s-section active" id="s-appearance">
           <div class="s-title">Appearance</div>
           <div class="s-sub">Customize the look of Nebula</div>
           <div class="s-card">
             <div class="s-card-title">Theme</div>
-            <div class="s-card-sub">Choose an accent color</div>
-            <div class="themes-grid">
-              <div class="theme-card active" onclick="applyTheme('purple',this)"><div class="theme-preview" style="color:#7f77dd">Aa</div><div class="theme-name">Default</div></div>
-              <div class="theme-card" onclick="applyTheme('pink',this)"><div class="theme-preview" style="color:#d4537e">Aa</div><div class="theme-name">Blossom</div></div>
-              <div class="theme-card" onclick="applyTheme('blue',this)"><div class="theme-preview" style="color:#378add">Aa</div><div class="theme-name">Ocean</div></div>
-              <div class="theme-card" onclick="applyTheme('green',this)"><div class="theme-preview" style="color:#1d9e75">Aa</div><div class="theme-name">Forest</div></div>
-              <div class="theme-card" onclick="applyTheme('amber',this)"><div class="theme-preview" style="color:#ef9f27">Aa</div><div class="theme-name">Sunset</div></div>
-              <div class="theme-card" onclick="applyTheme('coral',this)"><div class="theme-preview" style="color:#d85a30">Aa</div><div class="theme-name">Crimson</div></div>
-              <div class="theme-card" onclick="applyTheme('teal',this)"><div class="theme-preview" style="color:#5dcaa5">Aa</div><div class="theme-name">Mint</div></div>
-              <div class="theme-card" onclick="applyTheme('mono',this)"><div class="theme-preview" style="color:#b4b2a9">Aa</div><div class="theme-name">Mono</div></div>
-            </div>
+            <div class="s-card-sub">Changes the entire color scheme</div>
+            <div class="themes-grid" id="themesGrid"></div>
           </div>
           <div class="s-card">
             <div class="toggle-row">
@@ -198,7 +155,6 @@
           </div>
         </div>
 
-        <!-- PRIVACY -->
         <div class="s-section" id="s-privacy">
           <div class="s-title">Privacy</div>
           <div class="s-sub">Control how Nebula appears to others</div>
@@ -206,7 +162,7 @@
             <div class="s-card-title">Tab Cloak</div>
             <div class="s-card-sub">Change how your tab looks in your browser history</div>
             <div class="cloak-btns">
-              <div class="cloak-btn active" id="cloak-none" onclick="setCloak('none','Nebula',null,this)"><i class="ti ti-home" style="font-size:14px"></i>None</div>
+              <div class="cloak-btn active" id="cloak-none" onclick="setCloak('none','Nebula','',this)"><i class="ti ti-home" style="font-size:14px"></i>None</div>
               <div class="cloak-btn" id="cloak-google" onclick="setCloak('google','Google','https://www.google.com/favicon.ico',this)"><i class="ti ti-brand-google" style="font-size:14px"></i>Google</div>
               <div class="cloak-btn" id="cloak-classroom" onclick="setCloak('classroom','Google Classroom','https://ssl.gstatic.com/classroom/favicon.png',this)"><i class="ti ti-school" style="font-size:14px"></i>Classroom</div>
               <div class="cloak-btn" id="cloak-drive" onclick="setCloak('drive','Google Drive','https://ssl.gstatic.com/images/branding/product/ico/googledrive_48dp.png',this)"><i class="ti ti-brand-google-drive" style="font-size:14px"></i>Drive</div>
@@ -229,17 +185,15 @@
           </div>
         </div>
 
-        <!-- ABOUT -->
         <div class="s-section" id="s-about">
           <div class="s-title">About</div>
           <div class="s-sub">Nebula browser proxy</div>
           <div class="s-card" style="text-align:center;padding:32px">
             <div class="about-logo">Nebula</div>
             <div class="about-ver">Version 1.0.0</div>
-            <div style="font-size:13px;color:rgba(255,255,255,0.35);line-height:1.7">A fast, sleek web proxy.<br>No ads. No tracking. Just the web.</div>
+            <div style="font-size:13px;color:var(--text-muted);line-height:1.7">A fast, sleek web proxy.<br>No ads. No tracking. Just the web.</div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -247,36 +201,115 @@
 
 <script>
 const root = document.documentElement;
+
 const themes = {
-  purple:{a:'#7f77dd',g:'rgba(127,119,221,0.5)',g2:'rgba(127,119,221,0.2)',bg:'rgba(127,119,221,0.06)'},
-  pink:{a:'#d4537e',g:'rgba(212,83,126,0.5)',g2:'rgba(212,83,126,0.2)',bg:'rgba(212,83,126,0.06)'},
-  blue:{a:'#378add',g:'rgba(55,138,221,0.5)',g2:'rgba(55,138,221,0.2)',bg:'rgba(55,138,221,0.06)'},
-  green:{a:'#1d9e75',g:'rgba(29,158,117,0.5)',g2:'rgba(29,158,117,0.2)',bg:'rgba(29,158,117,0.06)'},
-  amber:{a:'#ef9f27',g:'rgba(239,159,39,0.5)',g2:'rgba(239,159,39,0.2)',bg:'rgba(239,159,39,0.06)'},
-  coral:{a:'#d85a30',g:'rgba(216,90,48,0.5)',g2:'rgba(216,90,48,0.2)',bg:'rgba(216,90,48,0.06)'},
-  teal:{a:'#5dcaa5',g:'rgba(93,202,165,0.5)',g2:'rgba(93,202,165,0.2)',bg:'rgba(93,202,165,0.06)'},
-  mono:{a:'#b4b2a9',g:'rgba(180,178,169,0.5)',g2:'rgba(180,178,169,0.2)',bg:'rgba(180,178,169,0.06)'},
+  default: {
+    name:'Default', preview:'#7f77dd',
+    '--bg':'#0a0a0e','--sidebar-bg':'rgba(255,255,255,0.03)','--topbar-bg':'#0d0d12',
+    '--surface':'rgba(255,255,255,0.05)','--surface2':'rgba(255,255,255,0.09)',
+    '--border':'rgba(255,255,255,0.08)','--text':'#f0f0f5','--text-muted':'#888899',
+    '--input-bg':'rgba(255,255,255,0.06)',
+    '--accent':'#7f77dd','--accent-glow':'rgba(127,119,221,0.5)','--accent-glow2':'rgba(127,119,221,0.2)','--accent-bg':'rgba(127,119,221,0.06)'
+  },
+  blossom: {
+    name:'Blossom', preview:'#d4537e',
+    '--bg':'#0f080d','--sidebar-bg':'rgba(212,83,126,0.06)','--topbar-bg':'#120b10',
+    '--surface':'rgba(212,83,126,0.07)','--surface2':'rgba(212,83,126,0.13)',
+    '--border':'rgba(212,83,126,0.18)','--text':'#fbeaf0','--text-muted':'#c08090',
+    '--input-bg':'rgba(212,83,126,0.07)',
+    '--accent':'#d4537e','--accent-glow':'rgba(212,83,126,0.5)','--accent-glow2':'rgba(212,83,126,0.2)','--accent-bg':'rgba(212,83,126,0.1)'
+  },
+  ocean: {
+    name:'Ocean', preview:'#378add',
+    '--bg':'#060e18','--sidebar-bg':'rgba(55,138,221,0.06)','--topbar-bg':'#08111e',
+    '--surface':'rgba(55,138,221,0.07)','--surface2':'rgba(55,138,221,0.13)',
+    '--border':'rgba(55,138,221,0.18)','--text':'#e6f1fb','--text-muted':'#6090b0',
+    '--input-bg':'rgba(55,138,221,0.07)',
+    '--accent':'#378add','--accent-glow':'rgba(55,138,221,0.5)','--accent-glow2':'rgba(55,138,221,0.2)','--accent-bg':'rgba(55,138,221,0.1)'
+  },
+  forest: {
+    name:'Forest', preview:'#1d9e75',
+    '--bg':'#050f0b','--sidebar-bg':'rgba(29,158,117,0.06)','--topbar-bg':'#07120e',
+    '--surface':'rgba(29,158,117,0.07)','--surface2':'rgba(29,158,117,0.13)',
+    '--border':'rgba(29,158,117,0.18)','--text':'#e0f5ee','--text-muted':'#50907a',
+    '--input-bg':'rgba(29,158,117,0.07)',
+    '--accent':'#1d9e75','--accent-glow':'rgba(29,158,117,0.5)','--accent-glow2':'rgba(29,158,117,0.2)','--accent-bg':'rgba(29,158,117,0.1)'
+  },
+  sunset: {
+    name:'Sunset', preview:'#ef9f27',
+    '--bg':'#100a02','--sidebar-bg':'rgba(239,159,39,0.06)','--topbar-bg':'#140c04',
+    '--surface':'rgba(239,159,39,0.07)','--surface2':'rgba(239,159,39,0.13)',
+    '--border':'rgba(239,159,39,0.18)','--text':'#faeeda','--text-muted':'#a07040',
+    '--input-bg':'rgba(239,159,39,0.07)',
+    '--accent':'#ef9f27','--accent-glow':'rgba(239,159,39,0.5)','--accent-glow2':'rgba(239,159,39,0.2)','--accent-bg':'rgba(239,159,39,0.1)'
+  },
+  crimson: {
+    name:'Crimson', preview:'#d85a30',
+    '--bg':'#0f0603','--sidebar-bg':'rgba(216,90,48,0.06)','--topbar-bg':'#130805',
+    '--surface':'rgba(216,90,48,0.07)','--surface2':'rgba(216,90,48,0.13)',
+    '--border':'rgba(216,90,48,0.18)','--text':'#faece7','--text-muted':'#a06050',
+    '--input-bg':'rgba(216,90,48,0.07)',
+    '--accent':'#d85a30','--accent-glow':'rgba(216,90,48,0.5)','--accent-glow2':'rgba(216,90,48,0.2)','--accent-bg':'rgba(216,90,48,0.1)'
+  },
+  mint: {
+    name:'Mint', preview:'#5dcaa5',
+    '--bg':'#060e0b','--sidebar-bg':'rgba(93,202,165,0.06)','--topbar-bg':'#08110e',
+    '--surface':'rgba(93,202,165,0.07)','--surface2':'rgba(93,202,165,0.13)',
+    '--border':'rgba(93,202,165,0.18)','--text':'#e1f5ee','--text-muted':'#50907a',
+    '--input-bg':'rgba(93,202,165,0.07)',
+    '--accent':'#5dcaa5','--accent-glow':'rgba(93,202,165,0.5)','--accent-glow2':'rgba(93,202,165,0.2)','--accent-bg':'rgba(93,202,165,0.1)'
+  },
+  mono: {
+    name:'Mono', preview:'#b4b2a9',
+    '--bg':'#0a0a0a','--sidebar-bg':'rgba(255,255,255,0.03)','--topbar-bg':'#0d0d0d',
+    '--surface':'rgba(255,255,255,0.05)','--surface2':'rgba(255,255,255,0.09)',
+    '--border':'rgba(255,255,255,0.08)','--text':'#e8e8e8','--text-muted':'#888888',
+    '--input-bg':'rgba(255,255,255,0.06)',
+    '--accent':'#b4b2a9','--accent-glow':'rgba(180,178,169,0.4)','--accent-glow2':'rgba(180,178,169,0.15)','--accent-bg':'rgba(180,178,169,0.06)'
+  },
+  light: {
+    name:'Light', preview:'#534ab7',
+    '--bg':'#f2f2f7','--sidebar-bg':'#e8e8f0','--topbar-bg':'#eaeaf4',
+    '--surface':'rgba(0,0,0,0.04)','--surface2':'rgba(0,0,0,0.08)',
+    '--border':'rgba(0,0,0,0.1)','--text':'#1a1a2e','--text-muted':'#666680',
+    '--input-bg':'rgba(0,0,0,0.05)',
+    '--accent':'#534ab7','--accent-glow':'rgba(83,74,183,0.4)','--accent-glow2':'rgba(83,74,183,0.15)','--accent-bg':'rgba(83,74,183,0.07)'
+  },
 };
-function applyTheme(key, el){
+
+function applyTheme(key, fromClick) {
   const t = themes[key];
-  root.style.setProperty('--accent',t.a);
-  root.style.setProperty('--accent-glow',t.g);
-  root.style.setProperty('--accent-glow2',t.g2);
-  root.style.setProperty('--accent-bg',t.bg);
-  document.querySelectorAll('.theme-card').forEach(c=>c.classList.remove('active'));
-  if(el) el.classList.add('active');
-  localStorage.setItem('nebula-theme', key);
+  if (!t) return;
+  Object.entries(t).forEach(([k,v]) => { if(k.startsWith('--')) root.style.setProperty(k, v); });
+  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+  const card = document.getElementById('tc-'+key);
+  if (card) card.classList.add('active');
+  if (fromClick) localStorage.setItem('nebula-theme', key);
 }
-applyTheme(localStorage.getItem('nebula-theme')||'purple', null);
+
+function buildThemeGrid() {
+  const grid = document.getElementById('themesGrid');
+  grid.innerHTML = '';
+  Object.entries(themes).forEach(([key, t]) => {
+    const card = document.createElement('div');
+    card.className = 'theme-card';
+    card.id = 'tc-'+key;
+    card.innerHTML = `<div class="theme-preview" style="color:${t.preview}">Aa</div><div class="theme-name">${t.name}</div>`;
+    card.onclick = () => applyTheme(key, true);
+    grid.appendChild(card);
+  });
+}
+buildThemeGrid();
+applyTheme(localStorage.getItem('nebula-theme') || 'default', false);
 
 // STARS
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
-let stars=[], starsOn=true;
+let stars = [], starsOn = true, animId;
 function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
 function initStars(){stars=[];for(let i=0;i<180;i++)stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.3+0.2,a:Math.random(),da:(Math.random()-0.5)*0.004})}
-function drawStars(){ctx.clearRect(0,0,canvas.width,canvas.height);if(!starsOn)return;stars.forEach(s=>{s.a+=s.da;if(s.a<=0||s.a>=1)s.da*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.a*0.7})`;ctx.fill()});requestAnimationFrame(drawStars)}
-function toggleStarfield(on){starsOn=on;if(on)drawStars();else ctx.clearRect(0,0,canvas.width,canvas.height)}
+function drawStars(){ctx.clearRect(0,0,canvas.width,canvas.height);if(!starsOn)return;stars.forEach(s=>{s.a+=s.da;if(s.a<=0||s.a>=1)s.da*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.a*0.6})`;ctx.fill()});animId=requestAnimationFrame(drawStars)}
+function toggleStarfield(on){starsOn=on;if(on)drawStars();else{cancelAnimationFrame(animId);ctx.clearRect(0,0,canvas.width,canvas.height)}}
 resize();initStars();drawStars();
 window.addEventListener('resize',()=>{resize();initStars()});
 
@@ -284,15 +317,14 @@ window.addEventListener('resize',()=>{resize();initStars()});
 let tabs=[], activeTab=null, tabCounter=0;
 function newTab(url){
   const id='tab'+(++tabCounter);
-  const tab={id, url:url||null, title:'New Tab'};
-  tabs.push(tab);
+  tabs.push({id, url:url||null, title:'New Tab'});
   renderTabs();
   if(url) loadInTab(id, url);
   else switchTab(id);
   return id;
 }
 function renderTabs(){
-  const bar = document.getElementById('tabsbar');
+  const bar=document.getElementById('tabsbar');
   bar.innerHTML='';
   tabs.forEach(t=>{
     const el=document.createElement('div');
@@ -304,6 +336,7 @@ function renderTabs(){
   const btn=document.createElement('button');
   btn.className='new-tab-btn';
   btn.innerHTML='<i class="ti ti-plus"></i>';
+  btn.title='New tab';
   btn.onclick=()=>newTab();
   bar.appendChild(btn);
 }
@@ -314,89 +347,60 @@ function switchTab(id){
   document.getElementById('settingsView').style.display='none';
   document.querySelectorAll('.frame-view').forEach(f=>f.style.display='none');
   if(tab && tab.url){
-    let fv=document.getElementById('fv-'+id);
-    if(!fv){
-      fv=document.createElement('div');
-      fv.className='frame-view';
-      fv.id='fv-'+id;
-      fv.innerHTML=`
-        <div class="frame-urlbar">
-          <button class="url-btn" onclick="goBack('${id}')"><i class="ti ti-arrow-left"></i></button>
-          <button class="url-btn" onclick="reloadFrame('${id}')"><i class="ti ti-refresh"></i></button>
-          <input class="url-input" id="ui-${id}" placeholder="Enter URL..." onkeydown="if(event.key==='Enter')navigateTab('${id}')"/>
-          <button class="url-btn" onclick="navigateTab('${id}')"><i class="ti ti-arrow-right"></i></button>
-        </div>
-        <iframe id="if-${id}" src="about:blank"></iframe>`;
-      document.getElementById('content').appendChild(fv);
-    }
-    fv.style.display='flex';
+    ensureFrame(id);
+    document.getElementById('fv-'+id).style.display='flex';
     const ui=document.getElementById('ui-'+id);
     if(ui) ui.value=tab.url;
   } else {
     document.getElementById('homeView').style.display='flex';
   }
-  document.getElementById('sb-home').classList.toggle('active', !tab||!tab.url);
+  document.getElementById('sb-home').classList.toggle('active',!tab||!tab.url);
   renderTabs();
 }
-function loadInTab(id, url){
+function ensureFrame(id){
+  if(document.getElementById('fv-'+id)) return;
+  const fv=document.createElement('div');
+  fv.className='frame-view';fv.id='fv-'+id;
+  fv.innerHTML=`<div class="frame-urlbar">
+    <button class="url-btn" onclick="goBack('${id}')"><i class="ti ti-arrow-left"></i></button>
+    <button class="url-btn" onclick="reloadFrame('${id}')"><i class="ti ti-refresh"></i></button>
+    <input class="url-input" id="ui-${id}" placeholder="Enter URL..." onkeydown="if(event.key==='Enter')navigateTab('${id}')"/>
+    <button class="url-btn" onclick="navigateTab('${id}')"><i class="ti ti-arrow-right"></i></button>
+  </div><iframe id="if-${id}" src="about:blank"></iframe>`;
+  document.getElementById('content').appendChild(fv);
+}
+function loadInTab(id,url){
   const full=url.startsWith('http')?url:'https://'+url;
   const tab=tabs.find(t=>t.id===id);
-  if(tab){tab.url=full;tab.title=new URL(full).hostname}
-  let fv=document.getElementById('fv-'+id);
-  if(!fv){
-    fv=document.createElement('div');
-    fv.className='frame-view';
-    fv.id='fv-'+id;
-    fv.innerHTML=`
-      <div class="frame-urlbar">
-        <button class="url-btn" onclick="goBack('${id}')"><i class="ti ti-arrow-left"></i></button>
-        <button class="url-btn" onclick="reloadFrame('${id}')"><i class="ti ti-refresh"></i></button>
-        <input class="url-input" id="ui-${id}" placeholder="Enter URL..." onkeydown="if(event.key==='Enter')navigateTab('${id}')"/>
-        <button class="url-btn" onclick="navigateTab('${id}')"><i class="ti ti-arrow-right"></i></button>
-      </div>
-      <iframe id="if-${id}" src="about:blank"></iframe>`;
-    document.getElementById('content').appendChild(fv);
-  }
+  if(tab){tab.url=full;try{tab.title=new URL(full).hostname}catch(e){tab.title=full}}
+  ensureFrame(id);
   activeTab=id;
   document.getElementById('homeView').style.display='none';
   document.getElementById('settingsView').style.display='none';
   document.querySelectorAll('.frame-view').forEach(f=>f.style.display='none');
-  fv.style.display='flex';
+  document.getElementById('fv-'+id).style.display='flex';
   document.getElementById('if-'+id).src='/proxy?url='+encodeURIComponent(full);
   const ui=document.getElementById('ui-'+id);
   if(ui) ui.value=full;
   renderTabs();
 }
-function navigateTab(id){
-  const ui=document.getElementById('ui-'+id);
-  if(ui) loadInTab(id, ui.value.trim());
-}
-function goBack(id){
-  const f=document.getElementById('if-'+id);
-  if(f) f.contentWindow.history.back();
-}
-function reloadFrame(id){
-  const f=document.getElementById('if-'+id);
-  if(f) f.src=f.src;
-}
-function closeTab(e, id){
+function navigateTab(id){const ui=document.getElementById('ui-'+id);if(ui)loadInTab(id,ui.value.trim())}
+function goBack(id){try{document.getElementById('if-'+id).contentWindow.history.back()}catch(e){}}
+function reloadFrame(id){const f=document.getElementById('if-'+id);if(f)f.src=f.src}
+function closeTab(e,id){
   e.stopPropagation();
   tabs=tabs.filter(t=>t.id!==id);
   const fv=document.getElementById('fv-'+id);
-  if(fv) fv.remove();
-  if(activeTab===id){
-    activeTab=null;
-    if(tabs.length>0) switchTab(tabs[tabs.length-1].id);
-    else showHome();
-  }
+  if(fv)fv.remove();
+  if(activeTab===id){activeTab=null;tabs.length>0?switchTab(tabs[tabs.length-1].id):showHome()}
   renderTabs();
 }
 function loadFromHome(){
   const url=document.getElementById('urlInput').value.trim();
-  if(!url) return;
-  const id=newTab(url.startsWith('http')?url:'https://'+url);
+  if(!url)return;
+  newTab(url.startsWith('http')?url:'https://'+url);
 }
-function openLink(url){ newTab(url); }
+function openLink(url){newTab(url)}
 function showHome(){
   activeTab=null;
   document.querySelectorAll('.frame-view').forEach(f=>f.style.display='none');
@@ -421,48 +425,31 @@ function switchSettings(section){
 }
 
 // TAB CLOAK
-let currentCloak='none';
-function setCloak(id, title, icon, el){
-  currentCloak=id;
+function setCloak(id,title,icon,el){
   document.title=title;
   let link=document.querySelector("link[rel~='icon']");
   if(!link){link=document.createElement('link');link.rel='icon';document.head.appendChild(link);}
   link.href=icon||'';
   document.querySelectorAll('.cloak-btn').forEach(b=>b.classList.remove('active'));
-  if(el) el.classList.add('active');
+  if(el)el.classList.add('active');
   document.getElementById('cloakTitle').value=id==='none'?'':title;
   document.getElementById('cloakIcon').value=icon||'';
-  localStorage.setItem('nebula-cloak-title', title);
-  localStorage.setItem('nebula-cloak-icon', icon||'');
 }
 function applyCustomCloak(){
   const t=document.getElementById('cloakTitle').value;
   const i=document.getElementById('cloakIcon').value;
-  if(t) document.title=t;
+  if(t)document.title=t;
   let link=document.querySelector("link[rel~='icon']");
   if(!link){link=document.createElement('link');link.rel='icon';document.head.appendChild(link);}
-  if(i) link.href=i;
+  if(i)link.href=i;
   document.querySelectorAll('.cloak-btn').forEach(b=>b.classList.remove('active'));
-  localStorage.setItem('nebula-cloak-title',t);
-  localStorage.setItem('nebula-cloak-icon',i);
 }
 function toggleAboutBlank(on){
-  if(on){
-    const w=window.open();
-    w.document.body.innerHTML='<iframe src="'+location.href+'" style="border:none;width:100%;height:100%;position:fixed;inset:0"></iframe>';
-    w.document.title='';
-  }
+  if(on){const w=window.open();w.document.body.style.cssText='margin:0;padding:0;overflow:hidden';w.document.body.innerHTML='<iframe src="'+location.href+'" style="border:none;width:100%;height:100vh"></iframe>';w.document.title='';}
 }
-function toggleAntiClose(on){
-  if(on) window.onbeforeunload=()=>'Are you sure you want to leave?';
-  else window.onbeforeunload=null;
-}
+function toggleAntiClose(on){window.onbeforeunload=on?()=>'Leave Nebula?':null}
 
-// Restore saved cloak
-const savedTitle=localStorage.getItem('nebula-cloak-title');
-const savedIcon=localStorage.getItem('nebula-cloak-icon');
-if(savedTitle) document.title=savedTitle;
-if(savedIcon){let l=document.createElement('link');l.rel='icon';l.href=savedIcon;document.head.appendChild(l);}
+renderTabs();
 </script>
 </body>
 </html>
