@@ -7,45 +7,45 @@
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{width:100%;height:100%;overflow:hidden;font-family:system-ui,sans-serif}
-    body{background:var(--bg);color:var(--text)}
+    body{background:var(--bg);color:var(--text);transition:background 0.3s,color 0.3s}
     canvas{position:fixed;inset:0;pointer-events:none;z-index:0}
-
-    .sidebar{position:fixed;left:0;top:0;bottom:0;width:52px;background:var(--sidebar-bg);border-right:0.5px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:4px;z-index:10}
+    .sidebar{position:fixed;left:0;top:0;bottom:0;width:52px;background:var(--sidebar-bg);border-right:0.5px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:4px;z-index:10;transition:background 0.3s}
     .sb-btn{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--text-muted);transition:background 0.15s,color 0.15s;border:none;background:none}
     .sb-btn:hover{background:var(--surface2);color:var(--text)}
     .sb-btn.active{background:var(--accent);color:#fff}
     .sb-bottom{margin-top:auto}
-
-    .tabsbar{position:fixed;left:52px;right:0;top:0;height:40px;background:var(--topbar-bg);border-bottom:0.5px solid var(--border);display:flex;align-items:center;padding:0 8px;gap:4px;z-index:9;overflow-x:auto}
+    .tabsbar{position:fixed;left:52px;right:0;top:0;height:40px;background:var(--topbar-bg);border-bottom:0.5px solid var(--border);display:flex;align-items:center;padding:0 8px;gap:4px;z-index:9;overflow-x:auto;transition:background 0.3s}
     .tabsbar::-webkit-scrollbar{height:3px}
     .tabsbar::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:3px}
     .tab{display:flex;align-items:center;gap:6px;padding:0 10px;height:28px;border-radius:8px;background:var(--surface);border:0.5px solid var(--border);cursor:pointer;font-size:12px;color:var(--text-muted);white-space:nowrap;min-width:100px;max-width:160px;transition:background 0.15s;flex-shrink:0}
     .tab.active{background:var(--surface2);color:var(--text);border-color:var(--accent)}
     .tab-title{flex:1;overflow:hidden;text-overflow:ellipsis}
-    .tab-close{font-size:11px;color:var(--text-muted);cursor:pointer;padding:2px;border-radius:4px;line-height:1}
+    .tab-close{font-size:11px;color:var(--text-muted);cursor:pointer;padding:2px;border-radius:4px}
     .tab-close:hover{color:var(--text);background:var(--surface2)}
     .new-tab-btn{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--text-muted);border:none;background:none;flex-shrink:0}
     .new-tab-btn:hover{background:var(--surface2);color:var(--text)}
-
     .content{position:fixed;left:52px;right:0;top:40px;bottom:0;z-index:5}
-
+    /* HOME */
     .home-view{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
-    .logo-text{font-size:72px;font-weight:700;letter-spacing:-2px;line-height:1;color:var(--accent);text-shadow:0 0 60px var(--accent-glow),0 0 120px var(--accent-glow2);transition:all 0.3s}
-    .logo-sub{font-size:14px;color:var(--text-muted);margin-top:8px;letter-spacing:0.5px;text-align:center}
+    .logo-text{font-size:72px;font-weight:700;letter-spacing:-2px;color:var(--accent);text-shadow:0 0 60px var(--accent-glow),0 0 120px var(--accent-glow2);transition:all 0.3s}
+    .logo-sub{font-size:14px;color:var(--text-muted);margin-top:8px;letter-spacing:0.5px}
     .search-wrap{width:460px;margin:32px 0 22px;position:relative}
-    .search-wrap input{width:100%;background:var(--input-bg);border:0.5px solid var(--border);border-radius:50px;padding:14px 90px 14px 46px;font-size:15px;color:var(--text);outline:none;transition:border-color 0.2s,background 0.2s}
+    .search-wrap input{width:100%;background:var(--input-bg);border:0.5px solid var(--border);border-radius:50px;padding:14px 90px 14px 46px;font-size:15px;color:var(--text);outline:none;transition:border-color 0.2s}
     .search-wrap input::placeholder{color:var(--text-muted)}
-    .search-wrap input:focus{border-color:var(--accent);background:var(--accent-bg)}
+    .search-wrap input:focus{border-color:var(--accent)}
     .search-icon{position:absolute;left:17px;top:50%;transform:translateY(-50%);font-size:17px;color:var(--text-muted);pointer-events:none}
-    .go-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:var(--accent);border:none;border-radius:50px;padding:8px 20px;font-size:13px;font-weight:500;color:#fff;cursor:pointer;transition:opacity 0.15s}
+    .go-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:var(--accent);border:none;border-radius:50px;padding:8px 20px;font-size:13px;font-weight:500;color:#fff;cursor:pointer}
     .go-btn:hover{opacity:0.85}
     .links{display:flex;gap:10px}
     .link-card{background:var(--surface);border:0.5px solid var(--border);border-radius:14px;padding:14px 18px;min-width:88px;text-align:center;cursor:pointer;transition:background 0.15s,border-color 0.15s;display:flex;flex-direction:column;align-items:center;gap:8px}
     .link-card:hover{background:var(--surface2);border-color:var(--accent)}
     .link-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff}
     .link-label{font-size:12px;color:var(--text-muted);font-weight:500}
-    .status{font-size:12px;color:var(--text-muted);margin-top:26px;letter-spacing:1px;text-transform:uppercase;opacity:0.5}
-
+    .home-actions{display:flex;gap:10px;margin-top:20px}
+    .home-btn{padding:9px 20px;border-radius:50px;border:0.5px solid var(--border);background:var(--surface);color:var(--text-muted);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background 0.15s,color 0.15s}
+    .home-btn:hover{background:var(--surface2);color:var(--text)}
+    .status{font-size:12px;color:var(--text-muted);margin-top:24px;opacity:0.5;letter-spacing:1px;text-transform:uppercase}
+    /* FRAME */
     .frame-view{width:100%;height:100%;display:none;flex-direction:column}
     .frame-urlbar{background:var(--topbar-bg);border-bottom:0.5px solid var(--border);padding:6px 12px;display:flex;align-items:center;gap:8px;flex-shrink:0}
     .url-input{flex:1;background:var(--input-bg);border:0.5px solid var(--border);border-radius:50px;padding:5px 14px;font-size:12px;color:var(--text);outline:none}
@@ -53,38 +53,82 @@
     .url-btn{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;display:flex;align-items:center;padding:4px}
     .url-btn:hover{color:var(--text)}
     iframe{flex:1;border:none;width:100%}
-
-    .settings-view{width:100%;height:100%;display:none}
-    .settings-layout{display:flex;height:100%}
+    /* CHAT */
+    .chat-view{width:100%;height:100%;display:none;flex-direction:row}
+    .chat-sidebar{width:210px;flex-shrink:0;border-right:0.5px solid var(--border);background:var(--sidebar-bg);display:flex;flex-direction:column}
+    .chat-sb-header{padding:12px;border-bottom:0.5px solid var(--border)}
+    .chat-sb-header p{font-size:13px;font-weight:500;color:var(--text);margin-bottom:8px}
+    .chat-search-row{display:flex;gap:6px}
+    .chat-search-row input{flex:1;font-size:12px;padding:5px 8px;border-radius:8px;border:0.5px solid var(--border);background:var(--input-bg);color:var(--text);outline:none}
+    .chat-search-row input:focus{border-color:var(--accent)}
+    .chat-search-row button{padding:5px 8px;font-size:12px;border-radius:8px;border:0.5px solid var(--border);background:none;cursor:pointer;color:var(--text-muted)}
+    .chat-search-row button:hover{background:var(--surface2);color:var(--text)}
+    .public-btn{margin:8px;padding:8px 10px;border-radius:8px;cursor:pointer;font-size:13px;border:0.5px solid var(--border);background:none;color:var(--text-muted);text-align:left;display:flex;align-items:center;gap:8px;width:calc(100% - 16px)}
+    .public-btn:hover,.public-btn.active{background:var(--surface2);color:var(--text)}
+    .dm-list{flex:1;overflow-y:auto;padding:4px 8px}
+    .dm-item{padding:8px 10px;border-radius:8px;cursor:pointer;font-size:13px;color:var(--text-muted);display:flex;align-items:center;gap:8px}
+    .dm-item:hover,.dm-item.active{background:var(--surface2);color:var(--text)}
+    .dm-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+    .dm-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .users-section{padding:8px;border-top:0.5px solid var(--border)}
+    .users-title{font-size:11px;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px;padding:0 2px}
+    .user-pill{display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:6px;font-size:12px;color:var(--text-muted);cursor:pointer}
+    .user-pill:hover{background:var(--surface2);color:var(--text)}
+    .online-dot{width:7px;height:7px;border-radius:50%;background:#1d9e75;flex-shrink:0}
+    .chat-sb-footer{padding:10px;border-top:0.5px solid var(--border);font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:6px}
+    .chat-area{flex:1;display:flex;flex-direction:column}
+    .chat-header{padding:12px 16px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px}
+    .chat-header-title{font-size:14px;font-weight:500;color:var(--text)}
+    .chat-header-sub{font-size:12px;color:var(--text-muted)}
+    .messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px}
+    .msg{display:flex;flex-direction:column;gap:2px;max-width:80%}
+    .msg.mine{align-self:flex-end;align-items:flex-end}
+    .msg.theirs{align-self:flex-start}
+    .msg-meta{font-size:11px;color:var(--text-muted);display:flex;gap:6px;align-items:baseline}
+    .msg-name{font-weight:500}
+    .msg-bubble{padding:8px 12px;border-radius:12px;font-size:13px;line-height:1.5;background:var(--surface);border:0.5px solid var(--border);word-break:break-word;color:var(--text)}
+    .msg.mine .msg-bubble{background:var(--accent);border-color:var(--accent);color:#fff}
+    .sys-msg{text-align:center;font-size:12px;color:var(--text-muted);padding:4px 0;opacity:0.7}
+    .chat-input-row{padding:12px 16px;border-top:0.5px solid var(--border);display:flex;gap:8px;align-items:center}
+    .chat-input-row input{flex:1;font-size:13px;padding:9px 14px;border-radius:50px;border:0.5px solid var(--border);background:var(--input-bg);color:var(--text);outline:none}
+    .chat-input-row input:focus{border-color:var(--accent)}
+    .chat-input-row input::placeholder{color:var(--text-muted)}
+    .chat-input-row button{padding:9px 16px;font-size:13px;border-radius:50px;border:0.5px solid var(--border);background:var(--accent);cursor:pointer;color:#fff}
+    .chat-input-row button:hover{opacity:0.85}
+    .badge{display:inline-block;font-size:10px;padding:1px 6px;border-radius:100px;background:var(--accent);color:#fff;margin-left:auto}
+    /* LOGIN OVERLAY */
+    .login-overlay{position:absolute;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:20}
+    .login-card{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:28px;width:280px;display:flex;flex-direction:column;gap:14px}
+    .login-card h3{font-size:17px;font-weight:500;color:var(--text)}
+    .login-card p{font-size:13px;color:var(--text-muted)}
+    .login-card input{font-size:14px;padding:9px 12px;border-radius:8px;border:0.5px solid var(--border);background:var(--input-bg);color:var(--text);outline:none;width:100%}
+    .login-card input:focus{border-color:var(--accent)}
+    .login-card button{padding:9px;font-size:14px;border-radius:8px;border:none;background:var(--accent);cursor:pointer;color:#fff;font-weight:500}
+    .login-card .err{font-size:12px;color:#e24b4a;display:none}
+    /* SETTINGS */
+    .settings-view{width:100%;height:100%;display:none;flex-direction:row}
     .settings-sidebar{width:200px;flex-shrink:0;padding:20px 12px;border-right:0.5px solid var(--border);background:var(--sidebar-bg)}
     .settings-main{flex:1;overflow-y:auto;padding:28px}
     .snav-btn{width:100%;text-align:left;background:none;border:none;color:var(--text-muted);padding:9px 12px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;gap:8px;transition:background 0.15s,color 0.15s}
-    .snav-btn:hover{background:var(--surface2);color:var(--text)}
-    .snav-btn.active{background:var(--surface2);color:var(--text)}
-    .snav-btn i{font-size:16px}
-    .s-section{display:none}
-    .s-section.active{display:block}
+    .snav-btn:hover,.snav-btn.active{background:var(--surface2);color:var(--text)}
+    .s-section{display:none}.s-section.active{display:block}
     .s-title{font-size:20px;font-weight:500;margin-bottom:4px;color:var(--text)}
     .s-sub{font-size:13px;color:var(--text-muted);margin-bottom:24px}
     .s-card{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
     .s-card-title{font-size:15px;font-weight:500;margin-bottom:4px;color:var(--text)}
     .s-card-sub{font-size:13px;color:var(--text-muted);margin-bottom:16px}
-
     .themes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px}
     .theme-card{background:var(--surface2);border:2px solid transparent;border-radius:10px;padding:14px 8px;text-align:center;cursor:pointer;transition:border-color 0.15s,transform 0.1s}
     .theme-card:hover{transform:scale(1.04)}
     .theme-card.active{border-color:var(--accent)}
     .theme-preview{font-size:22px;font-weight:700;margin-bottom:6px}
     .theme-name{font-size:11px;color:var(--text-muted)}
-
-    .cloak-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-    .cloak-btn{padding:7px 14px;border-radius:8px;border:0.5px solid var(--border);background:var(--surface2);color:var(--text-muted);font-size:13px;cursor:pointer;transition:background 0.15s;display:flex;align-items:center;gap:6px}
-    .cloak-btn:hover{background:var(--surface2);color:var(--text)}
+    .cloak-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+    .cloak-btn{padding:7px 14px;border-radius:8px;border:0.5px solid var(--border);background:var(--surface2);color:var(--text-muted);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px}
     .cloak-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
     .s-input{width:100%;background:var(--input-bg);border:0.5px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text);outline:none;margin-bottom:10px}
     .s-input:focus{border-color:var(--accent)}
     .s-input::placeholder{color:var(--text-muted)}
-
     .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
     .toggle-label{font-size:14px;color:var(--text)}
     .toggle-sub{font-size:12px;color:var(--text-muted);margin-top:2px}
@@ -94,24 +138,22 @@
     .toggle-slider:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform 0.2s}
     .toggle input:checked+.toggle-slider{background:var(--accent)}
     .toggle input:checked+.toggle-slider:before{transform:translateX(20px)}
-
-    .about-logo{font-size:48px;font-weight:700;color:var(--accent);text-shadow:0 0 40px var(--accent-glow);margin-bottom:8px}
+    .about-logo{font-size:48px;font-weight:700;color:var(--accent);margin-bottom:8px}
     .about-ver{font-size:13px;color:var(--text-muted);margin-bottom:24px}
   </style>
 </head>
 <body>
 <canvas id="stars"></canvas>
-
 <div class="sidebar">
   <div class="sb-btn active" id="sb-home" onclick="showHome()"><i class="ti ti-home"></i></div>
+  <div class="sb-btn" id="sb-chat" onclick="showChat()"><i class="ti ti-message-circle"></i></div>
   <div class="sb-btn" onclick="openSettings('appearance')"><i class="ti ti-settings"></i></div>
   <div class="sb-btn sb-bottom" onclick="openSettings('privacy')"><i class="ti ti-shield"></i></div>
   <div class="sb-btn" onclick="openSettings('about')"><i class="ti ti-info-circle"></i></div>
 </div>
-
 <div class="tabsbar" id="tabsbar"></div>
-
 <div class="content" id="content">
+  <!-- HOME -->
   <div class="home-view" id="homeView">
     <div class="logo-text">Nebula</div>
     <div class="logo-sub">explore the open web</div>
@@ -127,72 +169,111 @@
       <div class="link-card" onclick="openLink('https://reddit.com')"><div class="link-icon" style="background:#ff4500"><i class="ti ti-brand-reddit"></i></div><span class="link-label">Reddit</span></div>
       <div class="link-card" onclick="openLink('https://twitter.com')"><div class="link-icon" style="background:#000"><i class="ti ti-brand-x"></i></div><span class="link-label">X</span></div>
     </div>
+    <div class="home-actions">
+      <button class="home-btn" onclick="showChat()"><i class="ti ti-message-circle"></i> Open Chat</button>
+    </div>
     <div class="status">Ready</div>
   </div>
 
-  <div class="settings-view" id="settingsView">
-    <div class="settings-layout">
-      <div class="settings-sidebar">
-        <div style="font-size:18px;font-weight:500;color:var(--accent);margin-bottom:20px;padding-left:12px">Settings</div>
-        <button class="snav-btn active" id="snav-appearance" onclick="switchSettings('appearance')"><i class="ti ti-palette"></i>Appearance</button>
-        <button class="snav-btn" id="snav-privacy" onclick="switchSettings('privacy')"><i class="ti ti-shield"></i>Privacy</button>
-        <button class="snav-btn" id="snav-about" onclick="switchSettings('about')"><i class="ti ti-info-circle"></i>About</button>
+  <!-- CHAT -->
+  <div class="chat-view" id="chatView">
+    <div class="login-overlay" id="loginOverlay">
+      <div class="login-card">
+        <h3>Join Nebula Chat</h3>
+        <p>Pick a username to chat publicly or privately with others.</p>
+        <input id="chatUsername" placeholder="Username..." maxlength="20" onkeydown="if(event.key==='Enter')joinChat()"/>
+        <div class="err" id="chatErr"></div>
+        <button onclick="joinChat()">Join</button>
       </div>
-      <div class="settings-main">
-        <div class="s-section active" id="s-appearance">
-          <div class="s-title">Appearance</div>
-          <div class="s-sub">Customize the look of Nebula</div>
-          <div class="s-card">
-            <div class="s-card-title">Theme</div>
-            <div class="s-card-sub">Changes the entire color scheme</div>
-            <div class="themes-grid" id="themesGrid"></div>
-          </div>
-          <div class="s-card">
-            <div class="toggle-row">
-              <div><div class="toggle-label">Starfield background</div><div class="toggle-sub">Animated stars on the home screen</div></div>
-              <label class="toggle"><input type="checkbox" id="toggleStars" checked onchange="toggleStarfield(this.checked)"><span class="toggle-slider"></span></label>
-            </div>
+    </div>
+    <div class="chat-sidebar">
+      <div class="chat-sb-header">
+        <p>Direct messages</p>
+        <div class="chat-search-row">
+          <input id="dmSearchInput" placeholder="Find user..." onkeydown="if(event.key==='Enter')startDM()"/>
+          <button onclick="startDM()">DM</button>
+        </div>
+      </div>
+      <button class="public-btn active" id="publicRoomBtn" onclick="openPublicRoom()">
+        <i class="ti ti-hash" style="font-size:15px"></i> public
+        <span class="badge" id="publicUnreadBadge" style="display:none">0</span>
+      </button>
+      <div class="dm-list" id="dmRoomList"></div>
+      <div class="users-section">
+        <div class="users-title">Online</div>
+        <div id="onlineUsers"></div>
+      </div>
+      <div class="chat-sb-footer"><i class="ti ti-user" style="font-size:14px"></i><span id="myNameLabel">—</span></div>
+    </div>
+    <div class="chat-area">
+      <div class="chat-header">
+        <div>
+          <div class="chat-header-title" id="chatRoomTitle">#public</div>
+          <div class="chat-header-sub" id="chatRoomSub">Everyone can see this</div>
+        </div>
+      </div>
+      <div class="messages" id="chatMessages"></div>
+      <div class="chat-input-row">
+        <input id="chatMsgInput" placeholder="Say something..." onkeydown="if(event.key==='Enter')sendChatMsg()"/>
+        <button onclick="sendChatMsg()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="settings-view" id="settingsView">
+    <div class="settings-sidebar">
+      <div style="font-size:18px;font-weight:500;color:var(--accent);margin-bottom:20px;padding-left:12px">Settings</div>
+      <button class="snav-btn active" id="snav-appearance" onclick="switchSettings('appearance')"><i class="ti ti-palette"></i>Appearance</button>
+      <button class="snav-btn" id="snav-privacy" onclick="switchSettings('privacy')"><i class="ti ti-shield"></i>Privacy</button>
+      <button class="snav-btn" id="snav-about" onclick="switchSettings('about')"><i class="ti ti-info-circle"></i>About</button>
+    </div>
+    <div class="settings-main">
+      <div class="s-section active" id="s-appearance">
+        <div class="s-title">Appearance</div>
+        <div class="s-sub">Customize the look of Nebula</div>
+        <div class="s-card">
+          <div class="s-card-title">Theme</div>
+          <div class="s-card-sub">Changes the full color scheme</div>
+          <div class="themes-grid" id="themesGrid"></div>
+        </div>
+        <div class="s-card">
+          <div class="toggle-row">
+            <div><div class="toggle-label">Starfield</div><div class="toggle-sub">Animated stars on home screen</div></div>
+            <label class="toggle"><input type="checkbox" id="toggleStars" checked onchange="toggleStarfield(this.checked)"><span class="toggle-slider"></span></label>
           </div>
         </div>
-
-        <div class="s-section" id="s-privacy">
-          <div class="s-title">Privacy</div>
-          <div class="s-sub">Control how Nebula appears to others</div>
-          <div class="s-card">
-            <div class="s-card-title">Tab Cloak</div>
-            <div class="s-card-sub">Change how your tab looks in your browser history</div>
-            <div class="cloak-btns">
-              <div class="cloak-btn active" id="cloak-none" onclick="setCloak('none','Nebula','',this)"><i class="ti ti-home" style="font-size:14px"></i>None</div>
-              <div class="cloak-btn" id="cloak-google" onclick="setCloak('google','Google','https://www.google.com/favicon.ico',this)"><i class="ti ti-brand-google" style="font-size:14px"></i>Google</div>
-              <div class="cloak-btn" id="cloak-classroom" onclick="setCloak('classroom','Google Classroom','https://ssl.gstatic.com/classroom/favicon.png',this)"><i class="ti ti-school" style="font-size:14px"></i>Classroom</div>
-              <div class="cloak-btn" id="cloak-drive" onclick="setCloak('drive','Google Drive','https://ssl.gstatic.com/images/branding/product/ico/googledrive_48dp.png',this)"><i class="ti ti-brand-google-drive" style="font-size:14px"></i>Drive</div>
-              <div class="cloak-btn" id="cloak-kahoot" onclick="setCloak('kahoot','Kahoot!','https://kahoot.com/favicon.ico',this)"><i class="ti ti-device-gamepad" style="font-size:14px"></i>Kahoot</div>
-            </div>
-            <input class="s-input" id="cloakTitle" placeholder="Custom tab title" oninput="applyCustomCloak()"/>
-            <input class="s-input" id="cloakIcon" placeholder="Custom favicon URL" oninput="applyCustomCloak()"/>
+      </div>
+      <div class="s-section" id="s-privacy">
+        <div class="s-title">Privacy</div>
+        <div class="s-sub">Control how Nebula appears</div>
+        <div class="s-card">
+          <div class="s-card-title">Tab Cloak</div>
+          <div class="s-card-sub">Change how your tab looks in browser history</div>
+          <div class="cloak-btns">
+            <div class="cloak-btn active" onclick="setCloak('Nebula','',this)"><i class="ti ti-home" style="font-size:14px"></i>None</div>
+            <div class="cloak-btn" onclick="setCloak('Google','https://www.google.com/favicon.ico',this)"><i class="ti ti-brand-google" style="font-size:14px"></i>Google</div>
+            <div class="cloak-btn" onclick="setCloak('Google Classroom','https://ssl.gstatic.com/classroom/favicon.png',this)"><i class="ti ti-school" style="font-size:14px"></i>Classroom</div>
+            <div class="cloak-btn" onclick="setCloak('Google Drive','https://ssl.gstatic.com/images/branding/product/ico/googledrive_48dp.png',this)"><i class="ti ti-brand-google-drive" style="font-size:14px"></i>Drive</div>
+            <div class="cloak-btn" onclick="setCloak('Kahoot!','https://kahoot.com/favicon.ico',this)"><i class="ti ti-device-gamepad" style="font-size:14px"></i>Kahoot</div>
           </div>
-          <div class="s-card">
-            <div class="toggle-row">
-              <div><div class="toggle-label">Auto Cloaking</div><div class="toggle-sub">Automatically open in about:blank</div></div>
-              <label class="toggle"><input type="checkbox" id="toggleAbout" onchange="toggleAboutBlank(this.checked)"><span class="toggle-slider"></span></label>
-            </div>
-          </div>
-          <div class="s-card">
-            <div class="toggle-row">
-              <div><div class="toggle-label">Anti Close</div><div class="toggle-sub">Ask before closing the tab</div></div>
-              <label class="toggle"><input type="checkbox" id="toggleAntiClose" onchange="toggleAntiClose(this.checked)"><span class="toggle-slider"></span></label>
-            </div>
+          <input class="s-input" id="cloakTitle" placeholder="Custom tab title" oninput="applyCustomCloak()"/>
+          <input class="s-input" id="cloakIcon" placeholder="Custom favicon URL" oninput="applyCustomCloak()"/>
+        </div>
+        <div class="s-card">
+          <div class="toggle-row">
+            <div><div class="toggle-label">Anti Close</div><div class="toggle-sub">Ask before closing the tab</div></div>
+            <label class="toggle"><input type="checkbox" id="toggleAntiClose" onchange="window.onbeforeunload=this.checked?()=>'Leave Nebula?':null"><span class="toggle-slider"></span></label>
           </div>
         </div>
-
-        <div class="s-section" id="s-about">
-          <div class="s-title">About</div>
-          <div class="s-sub">Nebula browser proxy</div>
-          <div class="s-card" style="text-align:center;padding:32px">
-            <div class="about-logo">Nebula</div>
-            <div class="about-ver">Version 1.0.0</div>
-            <div style="font-size:13px;color:var(--text-muted);line-height:1.7">A fast, sleek web proxy.<br>No ads. No tracking. Just the web.</div>
-          </div>
+      </div>
+      <div class="s-section" id="s-about">
+        <div class="s-title">About</div>
+        <div class="s-sub">Nebula browser proxy</div>
+        <div class="s-card" style="text-align:center;padding:32px">
+          <div class="about-logo">Nebula</div>
+          <div class="about-ver">Version 2.0.0</div>
+          <div style="font-size:13px;color:var(--text-muted);line-height:1.7">Proxy + real-time chat.<br>No ads. No tracking. Just the web.</div>
         </div>
       </div>
     </div>
@@ -201,111 +282,38 @@
 
 <script>
 const root = document.documentElement;
-
 const themes = {
-  default: {
-    name:'Default', preview:'#7f77dd',
-    '--bg':'#0a0a0e','--sidebar-bg':'rgba(255,255,255,0.03)','--topbar-bg':'#0d0d12',
-    '--surface':'rgba(255,255,255,0.05)','--surface2':'rgba(255,255,255,0.09)',
-    '--border':'rgba(255,255,255,0.08)','--text':'#f0f0f5','--text-muted':'#888899',
-    '--input-bg':'rgba(255,255,255,0.06)',
-    '--accent':'#7f77dd','--accent-glow':'rgba(127,119,221,0.5)','--accent-glow2':'rgba(127,119,221,0.2)','--accent-bg':'rgba(127,119,221,0.06)'
-  },
-  blossom: {
-    name:'Blossom', preview:'#d4537e',
-    '--bg':'#0f080d','--sidebar-bg':'rgba(212,83,126,0.06)','--topbar-bg':'#120b10',
-    '--surface':'rgba(212,83,126,0.07)','--surface2':'rgba(212,83,126,0.13)',
-    '--border':'rgba(212,83,126,0.18)','--text':'#fbeaf0','--text-muted':'#c08090',
-    '--input-bg':'rgba(212,83,126,0.07)',
-    '--accent':'#d4537e','--accent-glow':'rgba(212,83,126,0.5)','--accent-glow2':'rgba(212,83,126,0.2)','--accent-bg':'rgba(212,83,126,0.1)'
-  },
-  ocean: {
-    name:'Ocean', preview:'#378add',
-    '--bg':'#060e18','--sidebar-bg':'rgba(55,138,221,0.06)','--topbar-bg':'#08111e',
-    '--surface':'rgba(55,138,221,0.07)','--surface2':'rgba(55,138,221,0.13)',
-    '--border':'rgba(55,138,221,0.18)','--text':'#e6f1fb','--text-muted':'#6090b0',
-    '--input-bg':'rgba(55,138,221,0.07)',
-    '--accent':'#378add','--accent-glow':'rgba(55,138,221,0.5)','--accent-glow2':'rgba(55,138,221,0.2)','--accent-bg':'rgba(55,138,221,0.1)'
-  },
-  forest: {
-    name:'Forest', preview:'#1d9e75',
-    '--bg':'#050f0b','--sidebar-bg':'rgba(29,158,117,0.06)','--topbar-bg':'#07120e',
-    '--surface':'rgba(29,158,117,0.07)','--surface2':'rgba(29,158,117,0.13)',
-    '--border':'rgba(29,158,117,0.18)','--text':'#e0f5ee','--text-muted':'#50907a',
-    '--input-bg':'rgba(29,158,117,0.07)',
-    '--accent':'#1d9e75','--accent-glow':'rgba(29,158,117,0.5)','--accent-glow2':'rgba(29,158,117,0.2)','--accent-bg':'rgba(29,158,117,0.1)'
-  },
-  sunset: {
-    name:'Sunset', preview:'#ef9f27',
-    '--bg':'#100a02','--sidebar-bg':'rgba(239,159,39,0.06)','--topbar-bg':'#140c04',
-    '--surface':'rgba(239,159,39,0.07)','--surface2':'rgba(239,159,39,0.13)',
-    '--border':'rgba(239,159,39,0.18)','--text':'#faeeda','--text-muted':'#a07040',
-    '--input-bg':'rgba(239,159,39,0.07)',
-    '--accent':'#ef9f27','--accent-glow':'rgba(239,159,39,0.5)','--accent-glow2':'rgba(239,159,39,0.2)','--accent-bg':'rgba(239,159,39,0.1)'
-  },
-  crimson: {
-    name:'Crimson', preview:'#d85a30',
-    '--bg':'#0f0603','--sidebar-bg':'rgba(216,90,48,0.06)','--topbar-bg':'#130805',
-    '--surface':'rgba(216,90,48,0.07)','--surface2':'rgba(216,90,48,0.13)',
-    '--border':'rgba(216,90,48,0.18)','--text':'#faece7','--text-muted':'#a06050',
-    '--input-bg':'rgba(216,90,48,0.07)',
-    '--accent':'#d85a30','--accent-glow':'rgba(216,90,48,0.5)','--accent-glow2':'rgba(216,90,48,0.2)','--accent-bg':'rgba(216,90,48,0.1)'
-  },
-  mint: {
-    name:'Mint', preview:'#5dcaa5',
-    '--bg':'#060e0b','--sidebar-bg':'rgba(93,202,165,0.06)','--topbar-bg':'#08110e',
-    '--surface':'rgba(93,202,165,0.07)','--surface2':'rgba(93,202,165,0.13)',
-    '--border':'rgba(93,202,165,0.18)','--text':'#e1f5ee','--text-muted':'#50907a',
-    '--input-bg':'rgba(93,202,165,0.07)',
-    '--accent':'#5dcaa5','--accent-glow':'rgba(93,202,165,0.5)','--accent-glow2':'rgba(93,202,165,0.2)','--accent-bg':'rgba(93,202,165,0.1)'
-  },
-  mono: {
-    name:'Mono', preview:'#b4b2a9',
-    '--bg':'#0a0a0a','--sidebar-bg':'rgba(255,255,255,0.03)','--topbar-bg':'#0d0d0d',
-    '--surface':'rgba(255,255,255,0.05)','--surface2':'rgba(255,255,255,0.09)',
-    '--border':'rgba(255,255,255,0.08)','--text':'#e8e8e8','--text-muted':'#888888',
-    '--input-bg':'rgba(255,255,255,0.06)',
-    '--accent':'#b4b2a9','--accent-glow':'rgba(180,178,169,0.4)','--accent-glow2':'rgba(180,178,169,0.15)','--accent-bg':'rgba(180,178,169,0.06)'
-  },
-  light: {
-    name:'Light', preview:'#534ab7',
-    '--bg':'#f2f2f7','--sidebar-bg':'#e8e8f0','--topbar-bg':'#eaeaf4',
-    '--surface':'rgba(0,0,0,0.04)','--surface2':'rgba(0,0,0,0.08)',
-    '--border':'rgba(0,0,0,0.1)','--text':'#1a1a2e','--text-muted':'#666680',
-    '--input-bg':'rgba(0,0,0,0.05)',
-    '--accent':'#534ab7','--accent-glow':'rgba(83,74,183,0.4)','--accent-glow2':'rgba(83,74,183,0.15)','--accent-bg':'rgba(83,74,183,0.07)'
-  },
+  default:{name:'Default',preview:'#7f77dd','--bg':'#0a0a0e','--sidebar-bg':'rgba(255,255,255,0.03)','--topbar-bg':'#0d0d12','--surface':'rgba(255,255,255,0.05)','--surface2':'rgba(255,255,255,0.09)','--border':'rgba(255,255,255,0.08)','--text':'#f0f0f5','--text-muted':'#888899','--input-bg':'rgba(255,255,255,0.06)','--accent':'#7f77dd','--accent-glow':'rgba(127,119,221,0.5)','--accent-glow2':'rgba(127,119,221,0.2)'},
+  blossom:{name:'Blossom',preview:'#d4537e','--bg':'#0f080d','--sidebar-bg':'rgba(212,83,126,0.06)','--topbar-bg':'#120b10','--surface':'rgba(212,83,126,0.07)','--surface2':'rgba(212,83,126,0.13)','--border':'rgba(212,83,126,0.18)','--text':'#fbeaf0','--text-muted':'#c08090','--input-bg':'rgba(212,83,126,0.07)','--accent':'#d4537e','--accent-glow':'rgba(212,83,126,0.5)','--accent-glow2':'rgba(212,83,126,0.2)'},
+  ocean:{name:'Ocean',preview:'#378add','--bg':'#060e18','--sidebar-bg':'rgba(55,138,221,0.06)','--topbar-bg':'#08111e','--surface':'rgba(55,138,221,0.07)','--surface2':'rgba(55,138,221,0.13)','--border':'rgba(55,138,221,0.18)','--text':'#e6f1fb','--text-muted':'#6090b0','--input-bg':'rgba(55,138,221,0.07)','--accent':'#378add','--accent-glow':'rgba(55,138,221,0.5)','--accent-glow2':'rgba(55,138,221,0.2)'},
+  forest:{name:'Forest',preview:'#1d9e75','--bg':'#050f0b','--sidebar-bg':'rgba(29,158,117,0.06)','--topbar-bg':'#07120e','--surface':'rgba(29,158,117,0.07)','--surface2':'rgba(29,158,117,0.13)','--border':'rgba(29,158,117,0.18)','--text':'#e0f5ee','--text-muted':'#50907a','--input-bg':'rgba(29,158,117,0.07)','--accent':'#1d9e75','--accent-glow':'rgba(29,158,117,0.5)','--accent-glow2':'rgba(29,158,117,0.2)'},
+  sunset:{name:'Sunset',preview:'#ef9f27','--bg':'#100a02','--sidebar-bg':'rgba(239,159,39,0.06)','--topbar-bg':'#140c04','--surface':'rgba(239,159,39,0.07)','--surface2':'rgba(239,159,39,0.13)','--border':'rgba(239,159,39,0.18)','--text':'#faeeda','--text-muted':'#a07040','--input-bg':'rgba(239,159,39,0.07)','--accent':'#ef9f27','--accent-glow':'rgba(239,159,39,0.5)','--accent-glow2':'rgba(239,159,39,0.2)'},
+  crimson:{name:'Crimson',preview:'#d85a30','--bg':'#0f0603','--sidebar-bg':'rgba(216,90,48,0.06)','--topbar-bg':'#130805','--surface':'rgba(216,90,48,0.07)','--surface2':'rgba(216,90,48,0.13)','--border':'rgba(216,90,48,0.18)','--text':'#faece7','--text-muted':'#a06050','--input-bg':'rgba(216,90,48,0.07)','--accent':'#d85a30','--accent-glow':'rgba(216,90,48,0.5)','--accent-glow2':'rgba(216,90,48,0.2)'},
+  light:{name:'Light',preview:'#534ab7','--bg':'#f2f2f7','--sidebar-bg':'#e8e8f0','--topbar-bg':'#eaeaf4','--surface':'rgba(0,0,0,0.04)','--surface2':'rgba(0,0,0,0.08)','--border':'rgba(0,0,0,0.1)','--text':'#1a1a2e','--text-muted':'#666680','--input-bg':'rgba(0,0,0,0.05)','--accent':'#534ab7','--accent-glow':'rgba(83,74,183,0.4)','--accent-glow2':'rgba(83,74,183,0.15)'},
+  mono:{name:'Mono',preview:'#b4b2a9','--bg':'#0a0a0a','--sidebar-bg':'rgba(255,255,255,0.03)','--topbar-bg':'#0d0d0d','--surface':'rgba(255,255,255,0.05)','--surface2':'rgba(255,255,255,0.09)','--border':'rgba(255,255,255,0.08)','--text':'#e8e8e8','--text-muted':'#888888','--input-bg':'rgba(255,255,255,0.06)','--accent':'#b4b2a9','--accent-glow':'rgba(180,178,169,0.4)','--accent-glow2':'rgba(180,178,169,0.15)'},
 };
-
-function applyTheme(key, fromClick) {
-  const t = themes[key];
-  if (!t) return;
-  Object.entries(t).forEach(([k,v]) => { if(k.startsWith('--')) root.style.setProperty(k, v); });
-  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
-  const card = document.getElementById('tc-'+key);
-  if (card) card.classList.add('active');
-  if (fromClick) localStorage.setItem('nebula-theme', key);
+function applyTheme(key,save){
+  const t=themes[key];if(!t)return;
+  Object.entries(t).forEach(([k,v])=>{if(k.startsWith('--'))root.style.setProperty(k,v)});
+  document.querySelectorAll('.theme-card').forEach(c=>c.classList.remove('active'));
+  const card=document.getElementById('tc-'+key);if(card)card.classList.add('active');
+  if(save)localStorage.setItem('nebula-theme',key);
 }
-
-function buildThemeGrid() {
-  const grid = document.getElementById('themesGrid');
-  grid.innerHTML = '';
-  Object.entries(themes).forEach(([key, t]) => {
-    const card = document.createElement('div');
-    card.className = 'theme-card';
-    card.id = 'tc-'+key;
-    card.innerHTML = `<div class="theme-preview" style="color:${t.preview}">Aa</div><div class="theme-name">${t.name}</div>`;
-    card.onclick = () => applyTheme(key, true);
-    grid.appendChild(card);
+function buildThemeGrid(){
+  const g=document.getElementById('themesGrid');g.innerHTML='';
+  Object.entries(themes).forEach(([key,t])=>{
+    const c=document.createElement('div');c.className='theme-card';c.id='tc-'+key;
+    c.innerHTML=`<div class="theme-preview" style="color:${t.preview}">Aa</div><div class="theme-name">${t.name}</div>`;
+    c.onclick=()=>applyTheme(key,true);g.appendChild(c);
   });
 }
 buildThemeGrid();
-applyTheme(localStorage.getItem('nebula-theme') || 'default', false);
+applyTheme(localStorage.getItem('nebula-theme')||'default',false);
 
 // STARS
-const canvas = document.getElementById('stars');
-const ctx = canvas.getContext('2d');
-let stars = [], starsOn = true, animId;
+const canvas=document.getElementById('stars');
+const ctx=canvas.getContext('2d');
+let stars=[],starsOn=true,animId;
 function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
 function initStars(){stars=[];for(let i=0;i<180;i++)stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.3+0.2,a:Math.random(),da:(Math.random()-0.5)*0.004})}
 function drawStars(){ctx.clearRect(0,0,canvas.width,canvas.height);if(!starsOn)return;stars.forEach(s=>{s.a+=s.da;if(s.a<=0||s.a>=1)s.da*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.a*0.6})`;ctx.fill()});animId=requestAnimationFrame(drawStars)}
@@ -314,109 +322,61 @@ resize();initStars();drawStars();
 window.addEventListener('resize',()=>{resize();initStars()});
 
 // TABS
-let tabs=[], activeTab=null, tabCounter=0;
-function newTab(url){
-  const id='tab'+(++tabCounter);
-  tabs.push({id, url:url||null, title:'New Tab'});
-  renderTabs();
-  if(url) loadInTab(id, url);
-  else switchTab(id);
-  return id;
-}
+let tabs=[],activeTab=null,tabCounter=0;
+function newTab(url){const id='tab'+(++tabCounter);tabs.push({id,url:url||null,title:'New Tab'});renderTabs();if(url)loadInTab(id,url);else switchTab(id);return id}
 function renderTabs(){
-  const bar=document.getElementById('tabsbar');
-  bar.innerHTML='';
+  const bar=document.getElementById('tabsbar');bar.innerHTML='';
   tabs.forEach(t=>{
-    const el=document.createElement('div');
-    el.className='tab'+(t.id===activeTab?' active':'');
+    const el=document.createElement('div');el.className='tab'+(t.id===activeTab?' active':'');
     el.innerHTML=`<span class="tab-title">${t.title}</span><span class="tab-close" onclick="closeTab(event,'${t.id}')"><i class="ti ti-x"></i></span>`;
-    el.onclick=(e)=>{if(!e.target.closest('.tab-close'))switchTab(t.id)};
-    bar.appendChild(el);
+    el.onclick=(e)=>{if(!e.target.closest('.tab-close'))switchTab(t.id)};bar.appendChild(el);
   });
-  const btn=document.createElement('button');
-  btn.className='new-tab-btn';
-  btn.innerHTML='<i class="ti ti-plus"></i>';
-  btn.title='New tab';
-  btn.onclick=()=>newTab();
-  bar.appendChild(btn);
+  const btn=document.createElement('button');btn.className='new-tab-btn';btn.innerHTML='<i class="ti ti-plus"></i>';btn.onclick=()=>newTab();bar.appendChild(btn);
 }
 function switchTab(id){
-  activeTab=id;
-  const tab=tabs.find(t=>t.id===id);
-  document.getElementById('homeView').style.display='none';
-  document.getElementById('settingsView').style.display='none';
-  document.querySelectorAll('.frame-view').forEach(f=>f.style.display='none');
-  if(tab && tab.url){
-    ensureFrame(id);
-    document.getElementById('fv-'+id).style.display='flex';
-    const ui=document.getElementById('ui-'+id);
-    if(ui) ui.value=tab.url;
-  } else {
-    document.getElementById('homeView').style.display='flex';
-  }
-  document.getElementById('sb-home').classList.toggle('active',!tab||!tab.url);
+  activeTab=id;const tab=tabs.find(t=>t.id===id);
+  hideAllViews();
+  if(tab&&tab.url){ensureFrame(id);document.getElementById('fv-'+id).style.display='flex';}
+  else{document.getElementById('homeView').style.display='flex';}
   renderTabs();
 }
+function hideAllViews(){
+  document.getElementById('homeView').style.display='none';
+  document.getElementById('chatView').style.display='none';
+  document.getElementById('settingsView').style.display='none';
+  document.querySelectorAll('.frame-view').forEach(f=>f.style.display='none');
+}
 function ensureFrame(id){
-  if(document.getElementById('fv-'+id)) return;
-  const fv=document.createElement('div');
-  fv.className='frame-view';fv.id='fv-'+id;
-  fv.innerHTML=`<div class="frame-urlbar">
-    <button class="url-btn" onclick="goBack('${id}')"><i class="ti ti-arrow-left"></i></button>
-    <button class="url-btn" onclick="reloadFrame('${id}')"><i class="ti ti-refresh"></i></button>
-    <input class="url-input" id="ui-${id}" placeholder="Enter URL..." onkeydown="if(event.key==='Enter')navigateTab('${id}')"/>
-    <button class="url-btn" onclick="navigateTab('${id}')"><i class="ti ti-arrow-right"></i></button>
-  </div><iframe id="if-${id}" src="about:blank"></iframe>`;
+  if(document.getElementById('fv-'+id))return;
+  const fv=document.createElement('div');fv.className='frame-view';fv.id='fv-'+id;
+  fv.innerHTML=`<div class="frame-urlbar"><button class="url-btn" onclick="goBack('${id}')"><i class="ti ti-arrow-left"></i></button><button class="url-btn" onclick="reloadFrame('${id}')"><i class="ti ti-refresh"></i></button><input class="url-input" id="ui-${id}" placeholder="Enter URL..." onkeydown="if(event.key==='Enter')navigateTab('${id}')"/><button class="url-btn" onclick="navigateTab('${id}')"><i class="ti ti-arrow-right"></i></button></div><iframe id="if-${id}" src="about:blank"></iframe>`;
   document.getElementById('content').appendChild(fv);
 }
 function loadInTab(id,url){
   const full=url.startsWith('http')?url:'https://'+url;
   const tab=tabs.find(t=>t.id===id);
   if(tab){tab.url=full;try{tab.title=new URL(full).hostname}catch(e){tab.title=full}}
-  ensureFrame(id);
-  activeTab=id;
-  document.getElementById('homeView').style.display='none';
-  document.getElementById('settingsView').style.display='none';
-  document.querySelectorAll('.frame-view').forEach(f=>f.style.display='none');
+  ensureFrame(id);activeTab=id;hideAllViews();
   document.getElementById('fv-'+id).style.display='flex';
   document.getElementById('if-'+id).src='/proxy?url='+encodeURIComponent(full);
-  const ui=document.getElementById('ui-'+id);
-  if(ui) ui.value=full;
+  const ui=document.getElementById('ui-'+id);if(ui)ui.value=full;
   renderTabs();
 }
 function navigateTab(id){const ui=document.getElementById('ui-'+id);if(ui)loadInTab(id,ui.value.trim())}
 function goBack(id){try{document.getElementById('if-'+id).contentWindow.history.back()}catch(e){}}
 function reloadFrame(id){const f=document.getElementById('if-'+id);if(f)f.src=f.src}
 function closeTab(e,id){
-  e.stopPropagation();
-  tabs=tabs.filter(t=>t.id!==id);
-  const fv=document.getElementById('fv-'+id);
-  if(fv)fv.remove();
+  e.stopPropagation();tabs=tabs.filter(t=>t.id!==id);
+  const fv=document.getElementById('fv-'+id);if(fv)fv.remove();
   if(activeTab===id){activeTab=null;tabs.length>0?switchTab(tabs[tabs.length-1].id):showHome()}
   renderTabs();
 }
-function loadFromHome(){
-  const url=document.getElementById('urlInput').value.trim();
-  if(!url)return;
-  newTab(url.startsWith('http')?url:'https://'+url);
-}
+function loadFromHome(){const url=document.getElementById('urlInput').value.trim();if(!url)return;newTab(url.startsWith('http')?url:'https://'+url)}
 function openLink(url){newTab(url)}
-function showHome(){
-  activeTab=null;
-  document.querySelectorAll('.frame-view').forEach(f=>f.style.display='none');
-  document.getElementById('settingsView').style.display='none';
-  document.getElementById('homeView').style.display='flex';
-  document.getElementById('sb-home').classList.add('active');
-  renderTabs();
-}
+function showHome(){hideAllViews();activeTab=null;document.getElementById('homeView').style.display='flex';renderTabs()}
 
 // SETTINGS
-function openSettings(section){
-  document.getElementById('homeView').style.display='none';
-  document.querySelectorAll('.frame-view').forEach(f=>f.style.display='none');
-  document.getElementById('settingsView').style.display='flex';
-  switchSettings(section||'appearance');
-}
+function openSettings(section){hideAllViews();document.getElementById('settingsView').style.display='flex';switchSettings(section)}
 function switchSettings(section){
   document.querySelectorAll('.s-section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.snav-btn').forEach(b=>b.classList.remove('active'));
@@ -424,15 +384,15 @@ function switchSettings(section){
   document.getElementById('snav-'+section).classList.add('active');
 }
 
-// TAB CLOAK
-function setCloak(id,title,icon,el){
+// CLOAK
+function setCloak(title,icon,el){
   document.title=title;
   let link=document.querySelector("link[rel~='icon']");
   if(!link){link=document.createElement('link');link.rel='icon';document.head.appendChild(link);}
   link.href=icon||'';
   document.querySelectorAll('.cloak-btn').forEach(b=>b.classList.remove('active'));
   if(el)el.classList.add('active');
-  document.getElementById('cloakTitle').value=id==='none'?'':title;
+  document.getElementById('cloakTitle').value=title==='Nebula'?'':title;
   document.getElementById('cloakIcon').value=icon||'';
 }
 function applyCustomCloak(){
@@ -444,10 +404,137 @@ function applyCustomCloak(){
   if(i)link.href=i;
   document.querySelectorAll('.cloak-btn').forEach(b=>b.classList.remove('active'));
 }
-function toggleAboutBlank(on){
-  if(on){const w=window.open();w.document.body.style.cssText='margin:0;padding:0;overflow:hidden';w.document.body.innerHTML='<iframe src="'+location.href+'" style="border:none;width:100%;height:100vh"></iframe>';w.document.title='';}
+
+// CHAT / WEBSOCKET
+let ws=null, myName='', currentRoom='public', dmUnread={}, publicUnread=0, dmRooms={};
+const uColors=['#378add','#d4537e','#1d9e75','#ef9f27','#534ab7','#d85a30','#5dcaa5'];
+const uColorMap={};
+function userColor(name){if(!uColorMap[name])uColorMap[name]=uColors[Object.keys(uColorMap).length%uColors.length];return uColorMap[name]}
+function initials(name){return name.slice(0,2).toUpperCase()}
+
+function showChat(){hideAllViews();document.getElementById('chatView').style.display='flex';activeTab=null;renderTabs()}
+
+function joinChat(){
+  const name=document.getElementById('chatUsername').value.trim();
+  if(!name)return;
+  const proto=location.protocol==='https:'?'wss':'ws';
+  ws=new WebSocket(`${proto}://${location.host}`);
+  ws.onopen=()=>{ws.send(JSON.stringify({type:'join',username:name}))}
+  ws.onmessage=(e)=>{
+    const d=JSON.parse(e.data);
+    if(d.type==='error'){document.getElementById('chatErr').textContent=d.message;document.getElementById('chatErr').style.display='block';ws.close();ws=null;return}
+    if(d.type==='joined'){myName=name;document.getElementById('loginOverlay').style.display='none';document.getElementById('myNameLabel').textContent=name;return}
+    if(d.type==='history'){d.messages.forEach(m=>appendPublicMsg(m,false));scrollChat();return}
+    if(d.type==='users'){renderOnlineUsers(d.users);return}
+    if(d.type==='public'){appendPublicMsg(d,true);return}
+    if(d.type==='dm'){handleIncomingDM(d);return}
+    if(d.type==='dm_history'){loadDMHistory(d);return}
+  }
+  ws.onclose=()=>{if(myName){addSysMsg('Disconnected from server');myName='';}}
 }
-function toggleAntiClose(on){window.onbeforeunload=on?()=>'Leave Nebula?':null}
+
+function appendPublicMsg(m,live){
+  if(currentRoom==='public'){
+    renderMsg(m);if(live)scrollChat();
+  } else {
+    if(live){publicUnread++;const b=document.getElementById('publicUnreadBadge');b.style.display='inline-block';b.textContent=publicUnread;}
+  }
+}
+
+function handleIncomingDM(m){
+  const peer=m.from===myName?m.to:m.from;
+  if(!dmRooms[peer])dmRooms[peer]=[];
+  dmRooms[peer].push(m);
+  if(currentRoom===peer){renderMsg(m);scrollChat();}
+  else{dmUnread[peer]=(dmUnread[peer]||0)+1;renderDMList();}
+}
+
+function loadDMHistory(d){
+  const peer=d.with;
+  dmRooms[peer]=d.messages;
+  if(currentRoom===peer){
+    document.getElementById('chatMessages').innerHTML='';
+    d.messages.forEach(m=>renderMsg(m));
+    scrollChat();
+  }
+}
+
+function renderMsg(m){
+  const container=document.getElementById('chatMessages');
+  if(m.from==='System'||!m.from){
+    const el=document.createElement('div');el.className='sys-msg';el.textContent=m.text;container.appendChild(el);return;
+  }
+  const isMe=m.from===myName;
+  const wrap=document.createElement('div');wrap.className='msg '+(isMe?'mine':'theirs');
+  const ts=new Date(m.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  wrap.innerHTML=`<div class="msg-meta"><span class="msg-name" style="color:${userColor(m.from)}">${m.from}</span><span>${ts}</span></div><div class="msg-bubble">${m.text}</div>`;
+  container.appendChild(wrap);
+}
+
+function addSysMsg(text){const el=document.createElement('div');el.className='sys-msg';el.textContent=text;document.getElementById('chatMessages').appendChild(el);scrollChat()}
+function scrollChat(){const m=document.getElementById('chatMessages');m.scrollTop=m.scrollHeight}
+
+function openPublicRoom(){
+  currentRoom='public';publicUnread=0;
+  document.getElementById('publicUnreadBadge').style.display='none';
+  document.getElementById('publicRoomBtn').classList.add('active');
+  document.getElementById('chatRoomTitle').textContent='#public';
+  document.getElementById('chatRoomSub').textContent='Everyone can see this';
+  document.getElementById('chatMessages').innerHTML='';
+  renderDMList();
+}
+
+function startDM(){
+  const peer=document.getElementById('dmSearchInput').value.trim();
+  document.getElementById('dmSearchInput').value='';
+  if(!peer||peer===myName)return;
+  if(!dmRooms[peer])dmRooms[peer]=[];
+  renderDMList();
+  openDMRoom(peer);
+}
+
+function openDMRoom(peer){
+  currentRoom=peer;dmUnread[peer]=0;
+  document.getElementById('publicRoomBtn').classList.remove('active');
+  document.getElementById('chatRoomTitle').textContent=peer;
+  document.getElementById('chatRoomSub').textContent='Private conversation';
+  document.getElementById('chatMessages').innerHTML='';
+  renderDMList();
+  if(ws&&ws.readyState===1) ws.send(JSON.stringify({type:'dm_history',with:peer}));
+  document.getElementById('chatMsgInput').focus();
+}
+
+function renderDMList(){
+  const list=document.getElementById('dmRoomList');list.innerHTML='';
+  Object.keys(dmRooms).forEach(peer=>{
+    const el=document.createElement('div');el.className='dm-item'+(currentRoom===peer?' active':'');
+    const u=dmUnread[peer]||0;
+    const color=userColor(peer);
+    el.innerHTML=`<div class="dm-avatar" style="background:${color}22;color:${color}">${initials(peer)}</div><span class="dm-name">${peer}</span>${u?`<span class="badge">${u}</span>`:''}`;
+    el.onclick=()=>openDMRoom(peer);list.appendChild(el);
+  });
+}
+
+function renderOnlineUsers(users){
+  const container=document.getElementById('onlineUsers');container.innerHTML='';
+  users.forEach(u=>{
+    if(u===myName)return;
+    const el=document.createElement('div');el.className='user-pill';
+    const color=userColor(u);
+    el.innerHTML=`<div class="online-dot"></div><span style="flex:1">${u}</span>`;
+    el.onclick=()=>{if(!dmRooms[u])dmRooms[u]=[];renderDMList();openDMRoom(u)};
+    container.appendChild(el);
+  });
+}
+
+function sendChatMsg(){
+  const input=document.getElementById('chatMsgInput');
+  const text=input.value.trim();
+  if(!text||!ws||ws.readyState!==1)return;
+  input.value='';
+  if(currentRoom==='public'){ws.send(JSON.stringify({type:'public',text}))}
+  else{ws.send(JSON.stringify({type:'dm',to:currentRoom,text}))}
+}
 
 renderTabs();
 </script>
